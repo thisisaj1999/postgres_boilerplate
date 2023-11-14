@@ -1,0 +1,11 @@
+.Dashboard{
+    display: flex;
+    /* justify-content: center;
+    align-items: center;
+     */
+}
+
+.MainPanel{
+    width: 100%;
+    padding: 2rem 1.5rem;
+}

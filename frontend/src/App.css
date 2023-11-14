@@ -9,13 +9,13 @@
 }
 
 .App {
-	display: flex;
+	/* display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 	font-family: 'Poppins', sans-serif;
-	background-color: #282c34;
+	/* background-color: #282c34; */
 	min-height: 100vh;
-	color: white;
+	/* color: white;
 	font-size: 4rem;
-	font-weight: 600;
+	font-weight: 600; */
 }
