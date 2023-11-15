@@ -1,4 +1,4 @@
 export const collapseSlice = (set) => ({
     collapseSidebar : false,
-    collapseHandler : () => set((state) => ({collapseSidebar : !state.collapseSidebar}))
+    collapseHandler : () => set((store) => ({collapseSidebar : !store.collapseSidebar}))
 })

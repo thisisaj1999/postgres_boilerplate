@@ -1,59 +1,119 @@
-import React from 'react';
-import { Space, Table, Tag } from 'antd';
-const columns = [
-  {
-    title: 'First Name',
-    dataIndex: 'firstname',
-    key: 'firstname',
-  },
-  {
-    title: 'Last Name',
-    dataIndex: 'lastname',
-    key: 'lastname',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Edit</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-const UserList = () => <Table style={{border: "1px solid lightgray", borderRadius: "7px"}} columns={columns} dataSource={data} />;
+import React, { useEffect, useState } from "react";
+import { Space, Table } from "antd";
+import { useAllUsersStore } from "../../store";
+import { getAllUsers, deleteUser } from "../../services/utils";
+import { enqueueSnackbar  } from "notistack";
+import { useNavigate } from "react-router-dom";
+
+const UserList = () => {
+
+	const navigate = useNavigate();
+
+	const State = {
+		Users: {
+			usersData: useAllUsersStore((State) => State.usersData),
+		},
+	};
+
+	const Update = {
+		Users: {
+			usersData: useAllUsersStore((State) => State.setUsersData),
+			editUserData: useAllUsersStore((State) => State.setUpdateUserData),
+		},
+	};
+
+	const editUserHandler = (data) => {
+		Update.Users.editUserData({
+			fName: data.first_name,
+			lName: data.last_name,
+			email: data.email,
+			phone: data.phone,
+			image: data.image,
+			id: data.id,
+		});
+		navigate("/edit-user")
+	};
+
+	const columns = [
+		{
+			title: "First Name",
+			dataIndex: "first_name",
+			key: "first_name",
+		},
+		{
+			title: "Last Name",
+			dataIndex: "last_name",
+			key: "last_name",
+		},
+		{
+			title: "Email",
+			dataIndex: "email",
+			key: "email",
+		},
+		{
+			title: "Phone",
+			dataIndex: "phone",
+			key: "phone",
+		},
+		{
+			title: "Action",
+			key: "action",
+			render: (_, record) => {
+				return (
+					<Space size="middle">
+						<a onClick={() => editUserHandler(record)}>Edit</a>
+						<a onClick={() => deleteUserHandler(record.id)}>
+							Delete
+						</a>
+					</Space>
+				);
+			},
+		},
+	];
+
+	const refactorData = () => {
+		getAllUsers().then((res) => {
+			if (res.status === 200) {
+				let users = res.data.user_table;
+				let images = res.data.image_table;
+
+				const newData = users.map((user) => {
+					const image = images.filter(
+						(image) => image?.user_id === user.id
+					)[0]?.image_url;
+					return {
+						...user,
+						image: image ? image : "",
+					};
+				});
+
+				Update.Users.usersData(newData);
+			}
+		});
+	}
+
+	useEffect(() => {
+		refactorData();
+	}, []);
+
+	const deleteUserHandler = async (id) => {
+		const data = await deleteUser(id);
+		if (data.status === 404) {
+			enqueueSnackbar(data?.message, { variant: "error" });
+		}
+
+		if (data.status === 200) {
+			enqueueSnackbar(data?.message, { variant: "success" });
+			refactorData();
+		}
+	};
+
+	return (
+		<Table
+			style={{ border: "1px solid lightgray", borderRadius: "7px" }}
+			columns={columns}
+			dataSource={State.Users.usersData}
+		/>
+	);
+};
 export default UserList;

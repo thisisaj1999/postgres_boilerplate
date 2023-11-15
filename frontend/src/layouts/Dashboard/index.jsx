@@ -25,7 +25,6 @@ const Dashboard = () => {
 			Handler: useCollapseStore((State) => State.collapseHandler),
 		},
 	};
-
 	return (
 		<div className={styles.Dashboard}>
 			<SideBar />
