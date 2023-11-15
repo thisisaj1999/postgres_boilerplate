@@ -36,6 +36,18 @@ const UserList = () => {
 
 	const columns = [
 		{
+			title: "Image",
+			dataIndex: "image",
+			key: "image",
+			render: (_, record) => {
+				return (
+					<Space size="middle" >
+						<img width="50px" height="50px" style={{borderRadius: "100px"}} src={record.image} alt="" />
+					</Space>
+				);
+			},
+		},
+		{
 			title: "First Name",
 			dataIndex: "first_name",
 			key: "first_name",
