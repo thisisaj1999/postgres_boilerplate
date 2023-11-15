@@ -115,7 +115,7 @@ const UserList = () => {
 		}
 
 		if (data.status === 200) {
-			enqueueSnackbar(data?.message, { variant: "success" });
+			enqueueSnackbar(`${data?.message}, Id : ${id}`, { variant: "success", preventDuplicate:false});
 			refactorData();
 		}
 	};
