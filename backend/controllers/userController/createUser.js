@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
 	if (Object.keys(userData).length === 0) {
 		console.log(`🔴  createUser : User's data is required for create`);
 		res.json({
-			status: 300,
+			status: 404,
 			message: `User's data is required for create`,
 		});
 		return;
@@ -68,14 +68,14 @@ const createUser = async (req, res) => {
 		} else {
 			console.log(`🔴  createUser : This email is already in use`);
 			res.json({
-				status: 200,
+				status: 404,
 				message: `This email is already in use`,
 			});
 		}
 	} catch (error) {
 		console.log(`🔴  createUser : Unable to create a new user`, error);
 		res.json({
-			status: 200,
+			status: 404,
 			message: `Unable to create a new user`,
 			data: error.message,
 		});

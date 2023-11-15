@@ -30,14 +30,14 @@ const getUserById = async (req, res) => {
 		} else {
 			console.log(`🔴  getUserById : The user doesn't exixts`);
 			res.json({
-				status: 300,
+				status: 404,
 				message: `The user doesn't exixts`,
 			});
 		}
 	} catch (error) {
 		console.log(`🔴  getUserById : Unable to fetch the data : `, error);
 		res.json({
-			status: 300,
+			status: 404,
 			message: `Unable to fetch the data`,
 			data: error.message,
 		});

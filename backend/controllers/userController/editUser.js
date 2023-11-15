@@ -8,7 +8,7 @@ const editUser = async (req, res) => {
 	if (Object.keys(userData).length === 0) {
 		console.log(`🔴  editUser : User's data is required for update`);
 		res.json({
-			status: 300,
+			status: 404,
 			message: `User's data is required for update`,
 		});
 		return;
@@ -18,7 +18,7 @@ const editUser = async (req, res) => {
 	if (!userId) {
 		console.log(`🔴  editUser : Unable to find the userId in params`);
 		res.json({
-			status: 300,
+			status: 404,
 			message: `Unable to find the userId in params`,
 		});
 		return;
@@ -79,7 +79,7 @@ const editUser = async (req, res) => {
 	} catch (error) {
 		console.log(`🔴  editUser : Unable to update the data : `, error);
 		res.json({
-			status: 300,
+			status: 404,
 			message: `Unable to update the data`,
 			data: error.message,
 		});

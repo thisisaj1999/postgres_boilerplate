@@ -22,7 +22,7 @@ const deleteUser = async (req, res) => {
         }else{
             console.log(`🔴  deleteUser : User I'd doesn't exists`);
             res.json({
-                status: 300,
+                status: 404,
                 message: `User I'd doesn't exists`
             });
         }
@@ -30,7 +30,7 @@ const deleteUser = async (req, res) => {
     } catch (error) {
         console.log(`🔴  deleteUser : Unable to delete the user`, error);
         res.json({
-            status: 300,
+            status: 404,
             message: `Unable to delete the user`,
             data: error.message
         });
