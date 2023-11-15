@@ -6,10 +6,9 @@ const deleteUser = async (req, res) => {
 
     try {
         const deleteUserData = await db.query(`DELETE FROM users WHERE id = ${userId};`)
-        
         if(deleteUserData?.rowCount !== 0){
 
-            const deleteImageData = await db.query(`DELETE FROM images WHERE id = ${userId};`)
+            const deleteImageData = await db.query(`DELETE FROM images WHERE user_id = ${userId};`)
             if(deleteImageData?.rowCount !== 0){
                 
                 console.log(`🟢  deleteUser : User deleted successfully`)
