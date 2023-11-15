@@ -18,6 +18,7 @@ const UserList = () => {
 	const Update = {
 		Users: {
 			usersData: useAllUsersStore((State) => State.setUsersData),
+			resetUsersData: useAllUsersStore((State) => State.resetUsersData),
 			editUserData: useAllUsersStore((State) => State.setUpdateUserData),
 		},
 	};
@@ -100,6 +101,10 @@ const UserList = () => {
 				});
 
 				Update.Users.usersData(newData);
+			}
+
+			if(res.status === 404){
+				Update.Users.resetUsersData();
 			}
 		});
 	}
